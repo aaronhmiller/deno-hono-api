@@ -3,17 +3,17 @@ import data from "./data.json" with { type: "json" };
 
 const app = new Hono();
 
-app.get("/", (c) => c.text("Welcome to dinosaur API!"));
+app.get("/", ctx => ctx.text("Welcome to dinosaur API!"));
 
-app.get("/api/", (c) => c.json(data));
+app.get("/api", ctx => ctx.json(data));
 
-app.get("/api/:dinosaur", (c) => {
-  const dinosaur = c.req.param("dinosaur").toLowerCase();
+app.get("/api/:dinosaur", ctx => {
+  const dinosaur = ctx.req.param("dinosaur").toLowerCase();
   const found = data.find((item) => item.name.toLowerCase() === dinosaur);
   if (found) {
-    return c.json(found);
+    return ctx.json(found);
   } else {
-    return c.text("No dinosaur found. 🦕");
+    return ctx.text("No dinosaur found. 🦕");
   }
 });
 
